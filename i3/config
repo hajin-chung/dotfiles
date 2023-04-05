@@ -35,6 +35,11 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# Properly set touchpad
+# enable scrolling 1. natural scrolling, 2. enabling scrolling itself
+exec --no-startup-id xinput set-prop 11 327 1
+exec --no-startup-id xinput set-prop 11 330 1 0 0
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
