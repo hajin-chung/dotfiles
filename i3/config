@@ -40,6 +40,9 @@ exec --no-startup-id nm-applet
 exec --no-startup-id xinput set-prop 11 327 1
 exec --no-startup-id xinput set-prop 11 330 1 0 0
 
+# wallpaper
+exec --no-startup-id nitrogen --set-auto ~/.config/wallpaper/default.jpg
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
