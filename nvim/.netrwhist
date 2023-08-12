@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =1
+let g:netrw_dirhist_1='/home/hajin/.config/nvim/lua/wchighway'
+let g:netrw_dirhist_0='/home/hajin/.config/nvim/lua'
+let g:netrw_dirhist_9='/home/hajin/.config/nvim'
+let g:netrw_dirhist_8='/home/hajin/.config/nvim/plugin'
+let g:netrw_dirhist_7='/home/hajin/.config/nvim'
+let g:netrw_dirhist_6='/home/hajin/.config/nvim/lua/wchighway'
+let g:netrw_dirhist_5='/home/hajin/.config/nvim/lua'
+let g:netrw_dirhist_4='/home/hajin/.config/nvim'
+let g:netrw_dirhist_3='/home/hajin/.config/nvim/plugin'
+let g:netrw_dirhist_2='/home/hajin/.config/nvim'
