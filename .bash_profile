@@ -61,16 +61,16 @@ BLUE="\e[1;34m"
 ENDCOLOR="\e[0m"
 
 if [ "$color_prompt" = yes ]; then
-    PS1="${BLUE}\u${ENDCOLOR} ${GREEN}\w${ENDCOLOR} : " 
+    PS1="${BLUE}\u${ENDCOLOR} ${GREEN}\w${ENDCOLOR} \n: " 
 else
-    PS1="${BLUE}\u${ENDCOLOR} ${GREEN}\w${ENDCOLOR} : " 
+    PS1="${BLUE}\u${ENDCOLOR} ${GREEN}\w${ENDCOLOR} \n: " 
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="${BLUE}\u${ENDCOLOR} ${GREEN}\w${ENDCOLOR} : " 
+    PS1="${BLUE}\u${ENDCOLOR} ${GREEN}\w${ENDCOLOR} \n: " 
     ;;
 *)
     ;;

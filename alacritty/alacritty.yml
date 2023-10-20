@@ -1,12 +1,12 @@
 font:
   normal:
-    family: CaskaydiaCove Nerd Font
+    family: Cascadia Code
     style: Regular
   size: 20.0
 shell:
   program: wsl --cd ~ 
 window:
-  startup_mode: Fullscreen
+  startup_mode: Maximized
   padding:
     x: 4
     y: 4
