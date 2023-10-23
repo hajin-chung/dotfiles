@@ -129,6 +129,11 @@ require('lazy').setup({
         component_separators = '|',
         section_separators = '',
       },
+      sections = {
+        lualine_a = {
+          { 'buffers', },
+        },
+      },
     },
   },
 
@@ -236,8 +241,16 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
-vim.keymap.set("n", "<leader>n", vim.cmd.tabnext)
-vim.keymap.set("n", "<leader>p", vim.cmd.tabprevious)
+vim.keymap.set("n", "<C-m>", vim.cmd.bn)
+vim.keymap.set("n", "<C-n>", vim.cmd.bp)
+vim.keymap.set("n", "<C-q>", function()
+  local buffers = vim.fn.getwininfo()
+  if #buffers > 1 then
+    vim.cmd('bp|bd #')
+  else
+    vim.cmd.q()
+  end
+end)
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
