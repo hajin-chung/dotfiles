@@ -171,6 +171,16 @@ require('lazy').setup({
   },
 
   {
+    'nvim-treesitter/playground',
+  },
+
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {}
+  },
+
+  {
     dir = '/home/hajin/plugins/cheatsheet.nvim'
   }
 }, {})
@@ -243,14 +253,7 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("n", "<C-m>", vim.cmd.bn)
 vim.keymap.set("n", "<C-n>", vim.cmd.bp)
-vim.keymap.set("n", "<C-q>", function()
-  local buffers = vim.fn.getwininfo()
-  if #buffers > 1 then
-    vim.cmd('bp|bd #')
-  else
-    vim.cmd.q()
-  end
-end)
+vim.keymap.set("n", "<C-q>", vim.cmd.bd)
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`

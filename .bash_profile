@@ -140,3 +140,6 @@ export MYVIMRC="/home/hajin/.config/nvim/init.lua"
 
 # golang
 export PATH="/usr/local/go/bin:$PATH"
+
+alias n='nvim'
+alias v='nvim'
