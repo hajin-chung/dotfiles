@@ -2,7 +2,7 @@
 
 configuration files I use
 
-currently using wsl so only alacritty, nvim, tmux.conf, .bash_profile
+currently using wezterm, nvim, tmux, bash
 
 guess not a good idea to copy .base_profile. 
-it could have some exports for your binary installs
+it could have some exports of your binary installs
