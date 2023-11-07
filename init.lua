@@ -130,9 +130,7 @@ require('lazy').setup({
         section_separators = '',
       },
       sections = {
-        lualine_a = {
-          { 'buffers', },
-        },
+        lualine_a = {},
       },
     },
   },
@@ -181,15 +179,47 @@ require('lazy').setup({
   },
 
   {
-    dir = '/home/hajin/plugins/cheatsheet.nvim'
-  }
+    dir = '/home/hajin/plugins/cheatsheet.nvim',
+  },
+
+  {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      require("bufferline").setup {}
+    end
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    config = function()
+      require("neo-tree").setup {
+        filesystem = {
+          filtered_items = {
+            visible = true,
+            hide_dotfiles = false,
+            hide_hidden = false,
+          },
+        },
+        window = {
+          position = "current"
+        }
+      }
+    end
+  },
 }, {})
 
 -- Set background to dark (tmux messes colors)
 vim.o.background = "dark"
 
 -- Set winbar
-vim.o.winbar = "%m %f"
+vim.o.winbar = "%m %f %r"
 
 -- Set vertical line at 80 chars
 vim.o.colorcolumn = "80"
@@ -249,7 +279,7 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", function() vim.cmd('Neotree reveal') end)
 
 vim.keymap.set("n", "<C-m>", vim.cmd.bn)
 vim.keymap.set("n", "<C-n>", vim.cmd.bp)
@@ -536,3 +566,4 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+vim.keymap.set('i', '<C-c>', function() vim.cmd('stopinsert') end);
