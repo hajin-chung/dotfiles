@@ -1,9 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Install package manager
---    https://github.com/folke/lazy.nvim
---    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -11,13 +8,17 @@ if not vim.loop.fs_stat(lazypath) then
     'clone',
     '--filter=blob:none',
     'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
+    '--branch=stable',
     lazypath,
   }
 end
 vim.opt.rtp:prepend(lazypath)
 
--- NOTE: Here is where you install your plugins.
+vim.opt.laststatus = 3
+
+vim.opt.swapfile = false
+
+-- Install plugins
 require('lazy').setup({
 
   -- Git related plugins
@@ -101,23 +102,12 @@ require('lazy').setup({
       end,
     },
   },
-
   {
     "2nthony/vitesse.nvim",
     dependencies = {
       "tjdevries/colorbuddy.nvim"
     },
-    name = "vitesse",
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'vitesse'
-      require("vitesse").setup({
-        transparent_background = false,
-        transparent_float_background = false,
-      })
-    end,
   },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -178,48 +168,41 @@ require('lazy').setup({
     opts = {}
   },
 
+  -- {
+  --   'hajin-chung/wsl-clipboard.nvim',
+  --   config = function()
+  --     require("wsl-clipboard").setup()
+  --   end
+  -- },
+
   {
-    dir = '/home/hajin/plugins/cheatsheet.nvim',
+    "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
   },
 
   {
-    'akinsho/bufferline.nvim',
-    version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons',
+    "ojroques/nvim-bufbar",
     config = function()
-      require("bufferline").setup {}
-    end
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    config = function()
-      require("neo-tree").setup {
-        filesystem = {
-          filtered_items = {
-            visible = true,
-            hide_dotfiles = false,
-            hide_hidden = false,
-          },
-        },
-        window = {
-          position = "current"
-        }
+      require("bufbar").setup {
+        theme = 'nord',   -- the theme in 'lua/bufbar/themes' to use
+        show_tabs = false,    -- show tabs
+        show_bufname = 'all', -- show full buffer name ('current', 'visible' or 'all')
+        show_flags = true,   -- show buffer flags
+        show_alternate = false, -- show alternate buffer
+        modifier = ':t',     -- the name modifier
+        term_modifier = ':t', -- the name modifier for terminal buffers
+        separator = '|',     -- the buffer separator
       }
     end
-  },
+  }
 }, {})
 
 -- Set background to dark (tmux messes colors)
 vim.o.background = "dark"
+vim.cmd([[colorscheme vitesse]])
 
 -- Set winbar
-vim.o.winbar = "%m %f %r"
+-- vim.o.winbar = "%m %f %r"
 
 -- Set vertical line at 80 chars
 vim.o.colorcolumn = "80"
@@ -274,12 +257,13 @@ vim.cmd("hi CursorColumn guibg=#292929")
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set({ 't' }, '<C-space>', '<C-\\><C-n>', { silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set("n", "<leader>pv", function() vim.cmd('Neotree reveal') end)
+vim.keymap.set("n", "<leader>pv", function() vim.cmd('Ex') end)
 
 vim.keymap.set("n", "<C-m>", vim.cmd.bn)
 vim.keymap.set("n", "<C-n>", vim.cmd.bp)
@@ -344,9 +328,8 @@ vim.defer_fn(function()
     sync_install = false,
     ignore_install = {},
     ensure_installed = {
-      'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript',
-      'vimdoc', 'vim',
-      'bash'
+      'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript',
+      'typescript', 'vimdoc', 'vim', 'bash'
     },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -478,10 +461,11 @@ require('mason-lspconfig').setup()
 local servers = {
   clangd = {},
   gopls = {},
+  templ = {},
   -- pyright = {},
   rust_analyzer = {},
   tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  html = { filetypes = { 'html', 'twig', 'hbs' } },
 
   lua_ls = {
     Lua = {
@@ -567,3 +551,16 @@ cmp.setup {
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 vim.keymap.set('i', '<C-c>', function() vim.cmd('stopinsert') end);
+
+vim.filetype.add({ extension = { templ = "templ", }, })
+
+require("lspconfig").tailwindcss.setup({
+  filetypes = {
+    'templ'
+  },
+  init_options = {
+    userLanguages = {
+      templ = "html"
+    }
+  }
+})
