@@ -17,5 +17,6 @@ config.window_padding = {
 config.default_prog = { 'wsl' }
 config.adjust_window_size_when_changing_font_size = false
 config.window_background_opacity = 0.9
+config.audible_bell = "Disabled"
 
 return config
