@@ -1,5 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.o.wrap = false
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -300,7 +301,9 @@ vim.keymap.set("n", "<leader>pv", function() vim.cmd('Ex') end)
 
 vim.keymap.set("n", "<C-m>", vim.cmd.bn)
 vim.keymap.set("n", "<C-n>", vim.cmd.bp)
-vim.keymap.set("n", "<C-q>", vim.cmd.bd)
+vim.keymap.set("n", "<C-q>", function()
+  vim.cmd("bp | sp | bn | bd")
+end)
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
