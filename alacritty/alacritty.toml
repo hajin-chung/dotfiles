@@ -1,0 +1,56 @@
+[font]
+normal = { family = "CascadiaCodePL" }
+size = 10.0
+
+[window]
+padding = { x = 4, y = 4 }
+opacity = 0.9
+
+# based on https//stephango.com/flexoki and https//github.com/kepano/flexoki/tree/main/alacritty
+
+# Default colors
+[colors.primary]
+background = '#121212'
+foreground = '#c8c5b8'
+dim_foreground = '#83827d'
+bright_foreground = '#bebaab'
+
+# Cursor colors
+[colors.cursor]
+text = '#FFFCF0'
+cursor = '#FFFCF0'
+
+# Normal colors
+[colors.normal]
+black = '#121212'
+red = '#CB7676'
+green = '#4d9375'
+yellow = '#e6cc77'
+blue = '#6394bf'
+magenta = '#d9739f'
+cyan = '#5eaab5'
+white = '#ffffff'
+
+# Bright colors
+[colors.bright]
+black = '#100F0F'
+red = '#D14D41'
+green = '#879A39'
+yellow = '#D0A215'
+blue = '#4385BE'
+magenta = '#CE5D97'
+cyan = '#3AA99F'
+white = '#FFFCF0'
+
+# Dim colors
+[colors.dim]
+black = '#100F0F'
+red = '#AF3029'
+green = '#66800B'
+yellow = '#AD8301'
+blue = '#205EA6'
+magenta = '#A02F6F'
+cyan = '#24837B'
+white = '#FFFCF0'
+
+
