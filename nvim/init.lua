@@ -116,7 +116,6 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'vitesse',
         component_separators = '|',
         section_separators = '',
       },
@@ -169,66 +168,24 @@ require('lazy').setup({
     opts = {}
   },
 
-  -- {
-  --   'hajin-chung/wsl-clipboard.nvim',
-  --   config = function()
-  --     require("wsl-clipboard").setup()
-  --   end
-  -- },
-
   {
     "windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup {} end
   },
 
   {
-    'akinsho/bufferline.nvim',
-    version = "*",
-    config = function()
-      -- vim.opt.termguicolors = true
-      local bufferline = require("bufferline")
-      bufferline.setup {
-        options = {
-          mode = "buffers",                               -- set to "tabs" to only show tabpages instead
-          style_preset = bufferline.style_preset.minimal, -- or bufferline.style_preset.minimal,
-          numbers = "none",
-          close_command = "bdelete! %d",                  -- can be a string | function, | false see "Mouse actions"
-          right_mouse_command = "bdelete! %d",            -- can be a string | function | false, see "Mouse actions"
-          left_mouse_command = "buffer %d",               -- can be a string | function, | false see "Mouse actions"
-          middle_mouse_command = nil,                     -- can be a string | function, | false see "Mouse actions"
-          indicator = {
-            style = 'none',
-          },
-          buffer_close_icon = '󰅖',
-          modified_icon = '●',
-          left_trunc_marker = '<',
-          right_trunc_marker = '>',
-          --- name_formatter can be used to change the buffer's label in the bufferline.
-          --- Please note some names can/will break the
-          --- bufferline so use this at your discretion knowing that it has
-          --- some limitations that will *NOT* be fixed.
-          max_name_length = 18,
-          max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-          truncate_names = true,  -- whether or not tab names should be truncated
-          tab_size = 18,
-          diagnostics_update_in_insert = false,
-          -- The diagnostics indicator can be set to nil to keep the buffer name highlight but delete the highlighting
-          color_icons = false,        -- whether or not to add the filetype icon highlights
-          persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
-          move_wraps_at_ends = false, -- whether or not the move command "wraps" at the first or last position
-          -- can also be a table containing 2 custom separators
-          -- [focused and unfocused]. eg: { '|', '|' }
-          separator_style = "thin",
-          hover = {
-            enabled = true,
-            delay = 200,
-            reveal = { 'close' }
-          },
-        }
-
-      }
-    end
-  }
+    'romgrk/barbar.nvim',
+    init = function() vim.g.barbar_auto_setup = false end,
+    opts = {
+      clickable = true,
+      icons = {
+        filetype = {
+          enabled = false,
+        },
+      },
+    },
+    version = '^1.0.0', -- optional: only update when a new 1.x version is released
+  },
 }, {})
 
 -- Set background to dark (tmux messes colors)
@@ -438,12 +395,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  --
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -472,7 +423,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
-  nmap('<leader>fw', vim.lsp.buf.format, '[F]ormat buffer')
+  nmap('<leader>fw', vim.lsp.bsuf.format, '[F]ormat buffer')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -502,7 +453,6 @@ local servers = {
   rust_analyzer = {},
   tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -600,3 +550,38 @@ require("lspconfig").tailwindcss.setup({
     }
   }
 })
+
+vim.api.nvim_set_keymap('n', '<leader>pp', ':lua FormatWithPrettier()<CR>', { noremap = true, silent = true })
+
+function FormatWithPrettier()
+    -- List of file extensions supported by Prettier
+    local extensions = {
+        ["ts"] = true,
+        ["js"] = true,
+        ["tsx"] = true,
+        ["jsx"] = true,
+        ["css"] = true,
+        -- Add any other extensions you need
+    }
+
+    -- Get the current buffer's file extension
+    local ext = vim.fn.expand("%:e")
+
+    if extensions[ext] then
+        -- Save the current cursor position
+        local cursor_pos = vim.api.nvim_win_get_cursor(0)
+        -- Execute Prettier and suppress its output
+        vim.fn.system("prettier --write " .. vim.fn.shellescape(vim.fn.expand("%:p")))
+        -- Check for errors in Prettier execution
+        if vim.v.shell_error ~= 0 then
+            print("Prettier formatting failed.")
+            return
+        end
+        -- Reload the file and reset the cursor position
+        vim.cmd("edit!")
+        vim.api.nvim_win_set_cursor(0, cursor_pos)
+    else
+        print("File type not supported by Prettier")
+    end
+end
+
