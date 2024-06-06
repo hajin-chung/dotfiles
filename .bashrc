@@ -5,7 +5,8 @@ BLUE="\e[1;94m"
 ENDCOLOR="\e[0m"
 
 # prompt
-PS1="${GREEN}\u${ENDCOLOR} ${CYAN}\w${ENDCOLOR} ${BLUE}\$${ENDCOLOR} "
+# PS1="${GREEN}\u${ENDCOLOR} ${CYAN}\w${ENDCOLOR} ${BLUE}\$${ENDCOLOR} "
+PS1="\u \w $ "
 
 # history config
 HISTSIZE=100000
