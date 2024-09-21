@@ -391,26 +391,7 @@ require('mason-lspconfig').setup()
 --
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
-local servers = {
-  clangd = {},
-  gopls = {},
-  templ = {},
-  -- pyright = {},
-  rust_analyzer = {},
-  tsserver = {},
-  html = { filetypes = { 'html', 'twig', 'hbs' } },
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-      diagnostics = {
-        globals = {
-          "vim"
-        }
-      }
-    },
-  },
-}
+local servers = {}
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -488,16 +469,16 @@ vim.keymap.set('i', '<C-c>', function() vim.cmd('stopinsert') end);
 
 vim.filetype.add({ extension = { templ = "templ", }, })
 
-require("lspconfig").tailwindcss.setup({
-  filetypes = {
-    'templ'
-  },
-  init_options = {
-    userLanguages = {
-      templ = "html"
-    }
-  }
-})
+-- require("lspconfig").tailwindcss.setup({
+--   filetypes = {
+--     'templ'
+--   },
+--   init_options = {
+--     userLanguages = {
+--       templ = "html"
+--     }
+--   }
+-- })
 
 vim.api.nvim_set_keymap('n', '<leader>pp', ':lua FormatWithPrettier()<CR>', { noremap = true, silent = true })
 
