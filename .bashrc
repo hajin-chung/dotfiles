@@ -5,8 +5,8 @@ BLUE="\e[1;94m"
 ENDCOLOR="\e[0m"
 
 # prompt
-# PS1="${GREEN}\u${ENDCOLOR} ${CYAN}\w${ENDCOLOR} ${BLUE}\$${ENDCOLOR} "
-PS1="\u \w $ "
+PS1="${GREEN}\u${ENDCOLOR} ${CYAN}\w${ENDCOLOR} ${BLUE}\$${ENDCOLOR} "
+# PS1="\u \w $ "
 
 # history config
 HISTSIZE=100000
@@ -21,9 +21,9 @@ bind '"\C-s": forward-search-history'
 # aliases
 alias ls='ls --color=auto'
 
+# timezone
+export TZ=/usr/share/zoneinfo/Asia/Seoul
+
 # path exports
 PATH=$PATH:/usr/local/go/bin
-PATH=$PATH:~/.cargo/bin
 PATH=$PATH:/opt/nvim-linux64/bin
-PATH=$PATH:~/.local/share/pnpm
-PATH=$PATH:~/go/bin
