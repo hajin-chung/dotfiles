@@ -14,3 +14,5 @@ local opts = { noremap = true, silent = true }
 map('n', '<C-n>', '<Cmd>BufferPrevious<CR>', opts)
 map('n', '<C-m>', '<Cmd>BufferNext<CR>', opts)
 map('n', '<C-q>', '<Cmd>BufferClose<CR>', opts)
+
+map("n", "<leader>e", vim.diagnostic.open_float, opts)

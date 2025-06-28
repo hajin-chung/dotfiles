@@ -13,6 +13,7 @@ function lsp_keymap_config(event)
     mode = mode or "n"
     vim.keymap.set(mode, keys, func, { buffer = event.buf })
   end
+
   map("gd", require("telescope.builtin").lsp_definitions)
   map("gr", require("telescope.builtin").lsp_references)
   map("gI", require("telescope.builtin").lsp_implementations)
@@ -65,10 +66,6 @@ function lsp_keymap_config(event)
 end
 
 function language_server_config()
-  -- more capabilites
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
   -- Enable the following language servers
   --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
   --
@@ -93,25 +90,10 @@ function language_server_config()
     },
   }
 
-  for server_name, server in pairs(servers) do
-    server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-    require("lspconfig")[server_name].setup(server)
-  end
-
   require("mason").setup()
-
-  local ensure_installed = vim.tbl_keys(servers or {})
-  require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
   require("mason-lspconfig").setup({
-    ensure_installed = {},
-    automatic_installation = false,
-    handlers = {
-      function(server_name)
-        local server = servers[server_name] or {}
-        server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-        require("lspconfig")[server_name].setup(server)
-      end
-    }
+    ensure_installed = vim.tbl_keys(servers),
+    automatic_enable = true,
   })
 end
 
@@ -132,9 +114,8 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       -- automatically install lsps and related tools
-      { "williamboman/mason.nvim", version="~1.0.0", config = true },
-      { "williamboman/mason-lspconfig.nvim", version="~1.0.0" },
-      { "WhoIsSethDaniel/mason-tool-installer.nvim", version = "~1.0.0" },
+      { "williamboman/mason.nvim", config = true },
+      { "williamboman/mason-lspconfig.nvim" },
 
       -- useful status updates for lsp.
       { "j-hui/fidget.nvim", opts = {} },
