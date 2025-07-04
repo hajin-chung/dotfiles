@@ -1,8 +1,8 @@
 # propmt colors
-GREEN="\e[1;32m"
-CYAN="\e[1;36m"
-BLUE="\e[1;94m"
-ENDCOLOR="\e[0m"
+GREEN="\[\e[1;32m\]"
+CYAN="\[\e[1;36m\]"
+BLUE="\[\e[1;94m\]"
+ENDCOLOR="\[\e[0m\]"
 
 # prompt
 PS1="${GREEN}\u${ENDCOLOR} ${CYAN}\w${ENDCOLOR} ${BLUE}\$${ENDCOLOR} "
