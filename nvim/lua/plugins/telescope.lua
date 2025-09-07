@@ -1,20 +1,10 @@
 return {
   -- Fuzzy Finder (files, lsp, etc)
-  { 
+  {
     "nvim-telescope/telescope.nvim",
     event = "VimEnter",
-    branch = "0.1.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-        cond = function()
-          return vim.fn.executable("make") == 1
-        end,
-      },
-      { "nvim-telescope/telescope-ui-select.nvim" },
-    },
+    tag = "0.1.8",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("telescope").setup({
         extensions = {
@@ -40,6 +30,20 @@ return {
 
       vim.keymap.set("n", "<leader>/", function()
         builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+          winblend = 10,
+          previewer = false,
+        }))
+      end)
+
+      vim.keymap.set("n", "<leader>sc", function()
+        builtin.command_history(require("telescope.themes").get_dropdown({
+          winblend = 10,
+          previewer = false,
+        }))
+      end)
+
+      vim.keymap.set("n", "<leader>q", function()
+        builtin.diagnostics(require("telescope.themes").get_dropdown({
           winblend = 10,
           previewer = false,
         }))
