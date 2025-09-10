@@ -26,3 +26,13 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.laststatus = 3
 vim.opt.termguicolors = true
+
+vim.opt.fillchars = {
+  horiz = "-",
+  horizup = "+",
+  horizdown = "+",
+  vert = "|",
+  vertleft = "+",
+  vertright = "+",
+  verthoriz = "+",
+}

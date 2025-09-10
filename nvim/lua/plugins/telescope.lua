@@ -28,6 +28,12 @@ return {
       vim.keymap.set("n", "<leader>?", builtin.oldfiles)
       vim.keymap.set("n", "<leader><leader>", builtin.buffers)
 
+      vim.keymap.set("n", "<leader>fa", function()
+        builtin.find_files({
+          no_ignore = true,
+        })
+      end)
+
       vim.keymap.set("n", "<leader>/", function()
         builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
           winblend = 10,
