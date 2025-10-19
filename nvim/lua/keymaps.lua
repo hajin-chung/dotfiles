@@ -55,6 +55,24 @@ function format_buffer()
       vim.print(string.format("black error %d\n%s", ret.code, ret.stderr))
       return
     end
+  elseif filetype == "typescriptreact" or filetype == "typescript" then
+    vim.print(string.format("biome format --write %s", filepath))
+    local ret = vim.system({"biome", "format", "--write", filepath}):wait()
+    if ret.code ~= 0 then
+      vim.print(string.format("biome error %d\n%s", ret.code, ret.stderr))
+      return
+    end
+    vim.cmd('edit')
+  elseif filetype == "go" then
+    vim.print(string.format("gofmt %s", filepath))
+    local ret = vim.system({"gofmt", filepath}):wait()
+    if ret.code ~= 0 then
+      vim.print(string.format("gofmt error %d\n%s", ret.code, ret.stderr))
+      return
+    end
+
+    local formatted = vim.split(ret.stdout, '\n')
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, formatted)
   else
     vim.print(string.format("no formatter for current buffer type %s", filetype))
   end
