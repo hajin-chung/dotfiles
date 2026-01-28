@@ -1,12 +1,16 @@
+TERM=xterm
+
 # propmt colors
 GREEN="\[\e[1;32m\]"
 CYAN="\[\e[1;36m\]"
 BLUE="\[\e[1;94m\]"
 ENDCOLOR="\[\e[0m\]"
 
+# pasting issue
+bind 'set enable-bracketed-paste on'
+
 # prompt
-PS1="${GREEN}\u${ENDCOLOR} ${CYAN}\w${ENDCOLOR} ${BLUE}\$${ENDCOLOR} "
-# PS1="\u \w $ "
+PS1="${GREEN}\u${ENDCOLOR} ${CYAN}  ${ENDCOLOR} ${CYAN}\w${ENDCOLOR} ${BLUE}\$${ENDCOLOR} "
 
 # history config
 HISTSIZE=100000
@@ -20,10 +24,11 @@ bind '"\C-s": forward-search-history'
 
 # aliases
 alias ls='ls --color=auto'
-
-# timezone
-export TZ=/usr/share/zoneinfo/Asia/Seoul
+alias ta='tmux a'
 
 # path exports
-PATH=$PATH:/usr/local/go/bin
-PATH=$PATH:/opt/nvim-linux64/bin
+PATH=$PATH:/opt/nvim-linux-x86_64/bin
+
+# set timezone
+TZ=/usr/share/zoneinfo/Asia/Seoul
+
