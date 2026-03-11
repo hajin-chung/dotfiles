@@ -55,7 +55,7 @@ function format_buffer()
       vim.print(string.format("black error %d\n%s", ret.code, ret.stderr))
       return
     end
-  elseif filetype == "typescriptreact" or filetype == "typescript" then
+  elseif filetype == "typescriptreact" or filetype == "typescript" or filetype == "html" then
     vim.print(string.format("biome format --write %s", filepath))
     local ret = vim.system({"biome", "format", "--write", filepath}):wait()
     if ret.code ~= 0 then

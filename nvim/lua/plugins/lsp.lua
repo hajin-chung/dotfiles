@@ -14,15 +14,16 @@ function lsp_keymap_config(event)
     vim.keymap.set(mode, keys, func, { buffer = event.buf })
   end
 
-  map("gd", require("telescope.builtin").lsp_definitions)
-  map("gr", require("telescope.builtin").lsp_references)
-  map("gI", require("telescope.builtin").lsp_implementations)
-  map("<leader>D", require("telescope.builtin").lsp_type_definitions)
-  map("<leader>ds", require("telescope.builtin").lsp_document_symbols)
-  map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols)
-  map("<leader>rn", vim.lsp.buf.rename)
+  map("gd", require("telescope.builtin").lsp_definitions, "n")
+  map("gr", require("telescope.builtin").lsp_references, "n")
+  map("gI", require("telescope.builtin").lsp_implementations, "n")
+  map("<leader>D", require("telescope.builtin").lsp_type_definitions, "n")
+  map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "n")
+  map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "n")
+  map("<leader>rn", vim.lsp.buf.rename, "n")
   map("<leader>ca", vim.lsp.buf.code_action, { "n", "x" })
-  map("gD", vim.lsp.buf.declaration)
+  map("gD", vim.lsp.buf.declaration, "n")
+  map("<C-s>", vim.lsp.buf.signature_help, "i")
 
   -- The following two autocommands are used to highlight references of the
   -- word under your cursor when your cursor rests there for a little while.
@@ -91,9 +92,21 @@ function language_server_config()
   }
 
   require("mason").setup()
+
+  -- Get capabilities from nvim-cmp to enable better autocompletion
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+
   require("mason-lspconfig").setup({
     ensure_installed = vim.tbl_keys(servers),
     automatic_enable = true,
+    handlers = {
+      function (server_name)
+        local server = servers[server_name] or {}
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        require('lspconfig')[server_name].setup(server)
+      end,
+    }
   })
 end
 
