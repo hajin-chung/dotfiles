@@ -1,0 +1,4 @@
+#!/bin/bash
+read -p "New Session Name: " name
+tmux new-session -d -s $name
+tmux switch-client -t $name
