@@ -1,3 +1,8 @@
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+# set timezone
+TZ=/usr/share/zoneinfo/Asia/Seoul
+
 TERM=xterm
 
 # propmt colors
@@ -27,8 +32,14 @@ alias ls='ls --color=auto'
 alias ta='tmux a'
 
 # path exports
-PATH=$PATH:/opt/nvim-linux-x86_64/bin
+export PATH=$PATH:/opt/nvim-linux-x86_64/bin
+export PATH=$PATH:/usr/local/go/bin
 
-# set timezone
-TZ=/usr/share/zoneinfo/Asia/Seoul
+. "$HOME/.local/bin/env"
+. "$HOME/.cargo/env"
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export SUDO_EDITOR=nvim
